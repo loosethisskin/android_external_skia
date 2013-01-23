@@ -51,6 +51,14 @@ ifeq ($(ARCH_ARM_HAVE_NEON),true)
 	LOCAL_CFLAGS += -D__ARM_HAVE_NEON
 endif
 
+# Graphite optimizations
+LOCAL_CFLAGS := \
+	-floop-interchange \
+	-floop-strip-mine \
+	-floop-block \
+	-ffast-math \
+	-funsafe-loop-optimizations
+
 # special checks for alpha == 0 and alpha == 255 in S32A_Opaque_BlitRow32
 # procedures (C and assembly) seriously improve skia performance
 LOCAL_CFLAGS += -DTEST_SRC_ALPHA
@@ -382,6 +390,14 @@ endif
 ifeq ($(ARCH_ARM_HAVE_NEON),true)
        LOCAL_CFLAGS += -DGR_ANDROID_BUILD=1
 endif
+
+# Graphite optimizations
+LOCAL_CFLAGS := \
+	-floop-interchange \
+	-floop-strip-mine \
+	-floop-block \
+	-ffast-math \
+	-funsafe-loop-optimizations
 
 LOCAL_SRC_FILES:= \
   src/gpu/GrPrintf_skia.cpp \
