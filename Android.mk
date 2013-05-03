@@ -55,6 +55,11 @@ endif
 # S32A_Blend_Blitrow32. Overrides the intrinsic blitter below.
 LOCAL_CFLAGS += -DENABLE_OPTIMIZED_S32A_BLITTERS
 
+# On Cortex-A9, a memset not using Neon is much faster.
+ifeq ($(strip $(TARGET_CPU_VARIANT)),cortex-a9)
+	LOCAL_CFLAGS += -DANDROID_USE_EXTERNAL_MEMSETX
+endif
+
 # special checks for alpha == 0 and alpha == 255 in S32A_Opaque_BlitRow32
 # procedures (C and assembly) seriously improve skia performance
 LOCAL_CFLAGS += -DTEST_SRC_ALPHA
