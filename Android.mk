@@ -374,6 +374,24 @@ LOCAL_CFLAGS += -fno-strict-aliasing
 
 LOCAL_LDLIBS += -lpthread
 
+# for FIMG2D acceleration
+ifeq ($(BOARD_USES_FIMGAPI),true)
+ifeq ($(BOARD_USES_SKIA_FIMGAPI),true)
+LOCAL_CFLAGS += -DFIMG2D_ENABLED
+ifeq ($(TARGET_SOC),exynos4210)
+LOCAL_SRC_FILES += src/core/SkFimgApi3x.cpp
+LOCAL_C_INCLUDES += $(TOP)/hardware/samsung/exynos4/hal/libfimg3x
+LOCAL_CFLAGS += -DFIMG2D3X
+endif
+ifeq ($(TARGET_SOC),exynos4x12)
+LOCAL_SRC_FILES += src/core/SkFimgApi4x.cpp
+LOCAL_C_INCLUDES += $(TOP)/hardware/samsung/exynos4/hal/include
+LOCAL_CFLAGS += -DFIMG2D4X
+endif
+LOCAL_SHARED_LIBRARIES += libfimg
+endif
+endif
+
 LOCAL_MODULE:= libskia
 
 include $(BUILD_SHARED_LIBRARY)
